@@ -10,6 +10,8 @@ public class logicaLogin {
         login.setVisible(true);
         
         login.setLocationRelativeTo(null);
+        
+        
     }
     
 }

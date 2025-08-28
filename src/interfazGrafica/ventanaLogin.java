@@ -1,5 +1,8 @@
 package interfazGrafica;
 
+import javax.swing.JOptionPane;
+import logicaApp.metodosDB;
+
 public class ventanaLogin extends javax.swing.JFrame {
     
     public ventanaLogin (){
@@ -108,13 +111,22 @@ public class ventanaLogin extends javax.swing.JFrame {
     
     
     private void btnIniciarSesionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarSesionActionPerformed
-        // TODO add your handling code here:
+        int matricula = Integer.parseInt(txtUser.getText());
+        boolean acceso = metodosDB.loginMatricula(matricula);
+        
+        if(acceso){
+            JOptionPane.showMessageDialog(this, "Acceso concedido");
+        } else {
+             JOptionPane.showMessageDialog(this, "Matrícula inválida");
+        }
+        
     }//GEN-LAST:event_btnIniciarSesionActionPerformed
 
     private void txtUserActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUserActionPerformed
         String usuario = txtUser.getText();
         if(usuario.matches("[a-zA-Z0-9]+")){
             System.out.println("Usuario valido; "+ usuario);
+            
         } else {
             System.out.println("Usuario invalido, contiene simbolos raros.");
         }

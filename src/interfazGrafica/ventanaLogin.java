@@ -2,6 +2,7 @@ package interfazGrafica;
 
 import javax.swing.JOptionPane;
 import logicaApp.metodosDB;
+import interfazGrafica.InterfazMedico;
 
 public class ventanaLogin extends javax.swing.JFrame {
     
@@ -116,6 +117,9 @@ public class ventanaLogin extends javax.swing.JFrame {
         
         if(acceso){
             JOptionPane.showMessageDialog(this, "Acceso concedido");
+            InterfazMedico ventanaMedico = new InterfazMedico();
+            ventanaMedico.setVisible(true);
+            ventanaMedico.setLocationRelativeTo(null);
         } else {
              JOptionPane.showMessageDialog(this, "Matrícula inválida");
         }

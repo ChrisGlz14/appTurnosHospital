@@ -1,5 +1,6 @@
 package logicaApp;
 
+ 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.PreparedStatement;
@@ -8,9 +9,16 @@ import logicaApp.conexionSQLite;
 import interfazGrafica.ventanaLogin;
 import javax.naming.spi.DirStateFactory;
 import interfazGrafica.InterfazMedico;
+import java.util.List;
+
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import Modelo.Paciente;
 
 public class metodosDB {
 
@@ -34,11 +42,10 @@ public class metodosDB {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-    }
-    
-    
-       
+    }    
   }
+   
+    
     //Metodo SELECT (para login)
     public static boolean loginMatricula(int matricula){
        Connection conexion = conexionSQLite.conectar();
@@ -66,44 +73,36 @@ public class metodosDB {
     
     //Metodo SELECT (para pacientes)
     
-    public static DefaultTableModel cargaPacientes(){
+    public static List<Paciente> obtenerPacientes(){
+       
+        List<Paciente> listaPacientes = new ArrayList<>();
         
-       DefaultTableModel tablaPacientes = new DefaultTableModel();
-
-       tablaPacientes.addColumn("idPaciente");
-       tablaPacientes.addColumn("hora Llegada");
-       tablaPacientes.addColumn("Turno");
-       tablaPacientes.addColumn("Nombre");
+        String sql = "select * from paciente";
        
         try (Connection conexionDB = conexionSQLite.conectar()) 
         {
-          
-            
-            String sql = "select * from paciente";
             PreparedStatement ps = conexionDB.prepareStatement(sql);
-            ResultSet rs = ps.executeQuery(sql);
+            ResultSet rs = ps.executeQuery();
             
             while(rs.next()) {
-                Object[] fila ={
-                    rs.getInt("idPaciente"),
-                    rs.getString("horaLlegada"),
-                    rs.getInt("turno_ID"),
-                    rs.getString("nombre_Paciente")
-                };
-                tablaPacientes.addRow(fila);
+                Paciente p = new Paciente();
+                    p.setIdPaciente(rs.getInt("idPaciente"));
+                    p.setNombre(rs.getString("nombrePaciente"));
+                    p.setApellido(rs.getString("apellidoPaciente"));
+                    p.setHoraLlegada(rs.getString("turnoID"));
+                    p.setTurnoId(rs.getInt("numeroTurno"));
+                            
+                            
+                listaPacientes.add(p);
             }
-            
-            
-            
             
             
        } catch (SQLException e) {
              e.printStackTrace();
         } 
         
-        JTable tabla = new JTable(tablaPacientes);
-        JScrollPane scroll = new JScrollPane(tabla);
-        return tablaPacientes;
+        
+        return listaPacientes;
         
     }
 }

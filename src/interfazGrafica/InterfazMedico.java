@@ -1,10 +1,11 @@
 
 package interfazGrafica;
 
+import Modelo.Paciente;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 import logicaApp.metodosDB;
-import static logicaApp.metodosDB.cargaPacientes;
+import static logicaApp.metodosDB.obtenerPacientes;
 
 public class InterfazMedico extends javax.swing.JFrame {
 
@@ -119,7 +120,19 @@ public class InterfazMedico extends javax.swing.JFrame {
         // TODO add your handling code here:
         btnComenzar.setVisible(false);
         btnSiguiente.setVisible(true);
-        DefaultTableModel modelo = metodosDB.cargaPacientes();
+         DefaultTableModel modelo = new DefaultTableModel(
+        new Object[]{"ID", "Nombre", "Apellido", "Hora Llegada", "Turno"}, 0
+    );
+         
+         for (Paciente p : metodosDB.obtenerPacientes()) {
+        modelo.addRow(new Object[]{
+            p.getIdPaciente(),
+            p.getNombre(),
+            p.getApellido(),
+            p.getHoraLlegada(),
+            p.getTurnoId()
+        });
+    }
         tblPacientes.setModel(modelo);
     }//GEN-LAST:event_btnComenzarMouseClicked
 
